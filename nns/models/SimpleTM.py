@@ -7,18 +7,36 @@ from nns.tsl_layers.Embed import DataEmbedding_inverted
 
 
 class Model(nn.Module):
-    def __init__(self, configs):
+    def __init__(self,seq_len,
+                 pred_len,
+                 output_attention=False,
+                 use_norm=1,
+                 geomattn_dropout=0.1,
+                 alpha=0.3,
+                 kernel_size=3,
+                 d_model=512,
+                 embed='timeF',
+                 freq='h',
+                 dropout=0.1,
+                 factor=1,
+                 requires_grad=True,
+                 wv='db1',
+                 m=3,
+                 dec_in=7,
+                 e_layers=2,
+                 d_ff=2048,
+                 activation='gelu'):
         super(Model, self).__init__()
-        self.seq_len = configs.seq_len
-        self.pred_len = configs.pred_len
-        self.output_attention = configs.output_attention
-        self.use_norm = configs.use_norm
-        self.geomattn_dropout = configs.geomattn_dropout
-        self.alpha = configs.alpha
-        self.kernel_size = configs.kernel_size
+        self.seq_len = seq_len
+        self.pred_len = pred_len
+        self.output_attention = output_attention
+        self.use_norm = use_norm
+        self.geomattn_dropout = geomattn_dropout
+        self.alpha = alpha
+        self.kernel_size = kernel_size
 
-        enc_embedding = DataEmbedding_inverted(configs.seq_len, configs.d_model, 
-                                               configs.embed, configs.freq, configs.dropout)
+        enc_embedding = DataEmbedding_inverted(seq_len, d_model, 
+                                               embed, freq, dropout)
         self.enc_embedding = enc_embedding
 
         encoder = Encoder(
@@ -26,30 +44,29 @@ class Model(nn.Module):
                 EncoderLayer(
                     GeomAttentionLayer(
                         GeomAttention(
-                            False, configs.factor, attention_dropout=configs.dropout, 
-                            output_attention=configs.output_attention, alpha=self.alpha
+                            False, factor, attention_dropout=dropout, 
+                            output_attention=output_attention, alpha=self.alpha
                         ),
-                        configs.d_model, 
-                        requires_grad=configs.requires_grad, 
-                        wv=configs.wv, 
-                        m=configs.m, 
-                        d_channel=configs.dec_in, 
+                        d_model, 
+                        requires_grad=requires_grad, 
+                        wv=wv, 
+                        m=m, 
+                        d_channel=dec_in, 
                         kernel_size=self.kernel_size, 
                         geomattn_dropout=self.geomattn_dropout
                     ),
-                    configs.d_model,
-                    configs.d_ff,
-                    dropout=configs.dropout,
-                    activation=configs.activation,
-                ) for l in range(configs.e_layers) 
+                    d_model,
+                    d_ff,
+                    dropout=dropout,
+                    activation=activation,
+                ) for l in range(e_layers) 
             ],
-            norm_layer=torch.nn.LayerNorm(configs.d_model)
+            norm_layer=torch.nn.LayerNorm(d_model)
         )
         self.encoder = encoder
 
-        projector = nn.Linear(configs.d_model, self.pred_len, bias=True)
+        projector = nn.Linear(d_model, self.pred_len, bias=True)
         self.projector = projector
-
 
     def forecast(self, x_enc, x_mark_enc, x_dec, x_mark_dec):
         if self.use_norm:

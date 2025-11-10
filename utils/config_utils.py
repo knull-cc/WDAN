@@ -58,6 +58,27 @@ model_params = {
         'd_ff',
         'activation'
     ],
+    'SimpleTM': [
+        'seq_len',
+        'label_len',
+        'pred_len',
+        'use_norm',
+        'e_layers',
+        'd_layers',
+        'd_model',
+        'd_ff',
+        'factor',
+        'enc_in',
+        'dec_in',
+        'c_out',
+        'batch_size',
+        'base_lr',       # 对应 WDAN 的 base_lr
+        'is_training',   # SimpleTM: 训练标志
+        'lradj',         # SimpleTM: 学习率调度策略
+        'patience',      # SimpleTM: 提前停止控制
+        'alpha',         # SimpleTM: loss 平衡系数
+        'l1_weight'      # SimpleTM: L1 正则项权重
+    ],
     'PatchTST': [
         'seq_len',
         'pred_len',
