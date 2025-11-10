@@ -10,9 +10,7 @@ export CUDA_VISIBLE_DEVICES=0
 
 # region ETTh1
 python -u run.py \
-  --is_training 1 \
   --model WDAN_SimpleTM \
-  --model_id ETTh1 \
   --data ETTh1 \
   --fix_seed 2025 \
   --itr 3 \
@@ -29,13 +27,7 @@ python -u run.py \
   --d_model 128 \
   --d_ff 128 \
   --factor 3 \
-  --learning_rate 0.0001 \
-  --lradj TST \
-  --patience 3 \
-  --wv db1 \
-  --m 3 \
-  --alpha 1.0 \
-  --l1_weight 5e-05 \
+  --base_lr 0.0001 \
   --stats_dwt_levels 2 \
   --stats_window_len 12 \
   --stats_d_model 128 \
@@ -46,7 +38,6 @@ python -u run.py \
   --stats_strategy stats_bb_union \
   --loss_type mse \
   --gpu_id $gpu_id \
-  --des Exp \
   --machine $machine \
   --server_name $server_name \
   --exp_id $exp_id
