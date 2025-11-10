@@ -5,7 +5,8 @@ itr=3
 machine=local
 server_name=Local
 precision=full
-gpu_id=1
+gpu_id=0
+export CUDA_VISIBLE_DEVICES=0
 
 # region ETTh1
 python run.py \

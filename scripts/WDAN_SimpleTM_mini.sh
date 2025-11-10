@@ -12,22 +12,24 @@ export CUDA_VISIBLE_DEVICES=0
 python -u run.py \
   --model WDAN_SimpleTM \
   --data ETTh1 \
-  --fix_seed 2025 \
+  --fix_seed $fix_seed \
   --itr 3 \
-  --seq_len 96 \
+  --machine $machine \
+  --server_name $server_name \
+  --exp_id $exp_id \
+  --seq_len $seq_len\
   --label_len 48 \
-  --pred_len 192 \
-  --enc_in 7 \
-  --dec_in 7 \
-  --c_out 7 \
+  --pred_len 96 \
   --batch_size 32 \
   --use_norm 1 \
   --e_layers 2 \
   --d_layers 1 \
+  --factor 3 \
+  --enc_in 7 \
+  --dec_in 7 \
+  --c_out 7 \
   --d_model 128 \
   --d_ff 128 \
-  --factor 3 \
-  --base_lr 0.0001 \
   --stats_dwt_levels 2 \
   --stats_window_len 12 \
   --stats_d_model 128 \
@@ -38,6 +40,4 @@ python -u run.py \
   --stats_strategy stats_bb_union \
   --loss_type mse \
   --gpu_id $gpu_id \
-  --machine $machine \
-  --server_name $server_name \
-  --exp_id $exp_id
+  --base_lr 0.0001
