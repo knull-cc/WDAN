@@ -91,5 +91,5 @@ class Model(nn.Module):
         return dec_out, statistics_pred
 
     def forward(self, x_enc, x_mark_enc, x_dec, x_mark_dec, mask=None):
-        dec_out, statistics_pred = self.forecast(x_enc, None, None, None)
-        return dec_out, statistics_pred
+        dec_out, attns = self.forecast(x_enc, None, None, None)
+        return dec_out
