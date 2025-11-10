@@ -72,32 +72,24 @@ class Model(nn.Module):
     def forecast(self, x_enc, x_mark_enc, x_dec, x_mark_dec):
         if self.use_norm:
             means = x_enc.mean(1, keepdim=True).detach()
-            x_enc = x_enc - means
             stdev = torch.sqrt(torch.var(x_enc, dim=1, keepdim=True, unbiased=False) + 1e-5)
-            # x_enc /= stdev
-            x_enc = x_enc / stdev
+            x_enc = (x_enc - means) / stdev
+        else:
+            means, stdev = 0, 1
 
         _, _, N = x_enc.shape
-
-        enc_embedding = self.enc_embedding
-        encoder = self.encoder
-        projector = self.projector
-        # Linear Projection             B L N -> B L' (pseudo temporal tokens) N 
-        enc_out = enc_embedding(x_enc, x_mark_enc) 
-
-        # SimpleTM Layer                B L' N -> B L' N 
-        enc_out, attns = encoder(enc_out, attn_mask=None)
-
-        # Output Projection             B L' N -> B H (Horizon) N
-        dec_out = projector(enc_out).permute(0, 2, 1)[:, :, :N] 
+        enc_out = self.enc_embedding(x_enc, x_mark_enc)
+        enc_out, attns = self.encoder(enc_out, attn_mask=None)
+        dec_out = self.projector(enc_out).permute(0, 2, 1)[:, :, :N]
 
         if self.use_norm:
             dec_out = dec_out * (stdev[:, 0, :].unsqueeze(1).repeat(1, self.pred_len, 1))
             dec_out = dec_out + (means[:, 0, :].unsqueeze(1).repeat(1, self.pred_len, 1))
 
-        return dec_out, attns
-
+        # ✅ 正确返回
+        statistics_pred = (means, stdev)
+        return dec_out, statistics_pred
 
     def forward(self, x_enc, x_mark_enc, x_dec, x_mark_dec, mask=None):
-        dec_out, attns = self.forecast(x_enc, None, None, None)
-        return dec_out, attns 
+        dec_out, statistics_pred = self.forecast(x_enc, None, None, None)
+        return dec_out, statistics_pred
