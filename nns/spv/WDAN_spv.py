@@ -11,6 +11,7 @@ import torch
 import torch.nn as nn
 from nns.layers.learnable_dwt import AdaDecomp
 from nns.models.iTransformer import Model as iTransformer
+from nns.models.SimpleTM import Model as SimpleTM
 from nns.models.PatchTST import Model as PatchTST
 from nns.models.Crossformer import Model as Crossformer
 from nns.models.FEDformer import Model as FEDformer
@@ -26,6 +27,7 @@ Framework_Dict = {
 
 Model_Dict = {
     'iTransformer': iTransformer,
+    'SimpleTM': SimpleTM,
     'PatchTST': PatchTST,
     'Crossformer': Crossformer,
     'FEDformer': FEDformer

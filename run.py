@@ -11,6 +11,7 @@ from utils.train_inits import init_seed
 
 spv_map = {
     'iTransformer': BaseMTSSupervisor,
+    'SimpleTM': BaseMTSSupervisor,
     'PatchTST': BaseMTSSupervisor,
     'Crossformer': BaseMTSSupervisor,
     'FEDformer': BaseMTSSupervisor,

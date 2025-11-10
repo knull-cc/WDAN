@@ -40,6 +40,12 @@ def get_model_run_id(model_name, model_configs):
         d_ff = model_configs.get('d_ff', 256)
         use_norm = 1 if model_configs.get('use_norm', False) else 0
         model_settings = f'_el{e_layers}_dm{d_model}_df{d_ff}_norm{use_norm}'
+    elif model_name == 'SimpleTM':
+        e_layers = model_configs.get('e_layers', 1)
+        d_model = model_configs.get('d_model', 32)
+        d_ff = model_configs.get('d_ff', 32)
+        use_norm = 1 if model_configs.get('use_norm', False) else 0
+        model_settings = f'_el{e_layers}_dm{d_model}_df{d_ff}_norm{use_norm}'
     elif model_name == 'PatchTST':
         patch_len = model_configs.get('patch_len', 16)
         e_layers = model_configs.get('e_layers', 1)

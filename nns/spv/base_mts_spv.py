@@ -16,6 +16,7 @@ from nns.spv.base_spv import BaseSupervisor
 from nns.spv.run_id import get_model_run_id, get_loss_run_id
 
 from nns.models.iTransformer import Model as iTransformer
+from nns.models.SimpleTM import Model as SimpleTM
 from nns.models.PatchTST import Model as PatchTST
 from nns.models.Crossformer import Model as Crossformer
 from nns.models.FEDformer import Model as FEDformer
@@ -23,6 +24,7 @@ from nns.models.FEDformer import Model as FEDformer
 
 Model_Dict = {
     'iTransformer': iTransformer,
+    'SimpleTM': SimpleTM,
     'PatchTST': PatchTST,
     'Crossformer': Crossformer,
     'FEDformer': FEDformer
