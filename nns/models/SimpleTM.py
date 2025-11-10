@@ -25,7 +25,8 @@ class Model(nn.Module):
                  dec_in=7,
                  e_layers=2,
                  d_ff=2048,
-                 activation='gelu'):
+                 activation='gelu',
+                 **kwargs):
         super(Model, self).__init__()
         self.seq_len = seq_len
         self.pred_len = pred_len

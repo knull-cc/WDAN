@@ -60,11 +60,9 @@ model_params = {
     ],
     'SimpleTM': [
         'seq_len',
-        'label_len',
         'pred_len',
         'use_norm',
         'e_layers',
-        'd_layers',
         'd_model',
         'd_ff',
         'factor',
