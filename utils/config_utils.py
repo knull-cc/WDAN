@@ -70,6 +70,9 @@ model_params = {
         'dec_in',
         'c_out',
         'batch_size',
+        'alpha',
+        'm',
+        'wv',
         'base_lr'
     ],
     'PatchTST': [

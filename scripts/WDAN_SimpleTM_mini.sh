@@ -40,4 +40,7 @@ python -u run.py \
   --stats_strategy stats_bb_union \
   --loss_type mse \
   --gpu_id $gpu_id \
+  --m 3 \
+  --alpha 0.0 \
+  --wv "db1" \
   --base_lr 0.0001

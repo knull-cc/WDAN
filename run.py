@@ -94,6 +94,19 @@ parser.add_argument('--down_sampling_method', type=str, default=None,
 # PatchTST
 parser.add_argument('--patch_len', type=int, default=16, help='patch length')
 
+ # SimpleTM Arguments
+parser.add_argument('--requires_grad', type=bool, default=True, help='Set to True to enable learnable wavelets')
+parser.add_argument('--wv', type=str, default='db1', help='Wavelet filter type. Supports all wavelets available in PyTorch Wavelets')
+parser.add_argument('--m', type=int, default=3, help='Number of levels for the stationary wavelet transform')
+parser.add_argument('--kernel_size', default=None, help='Specify the length of randomly initialized wavelets (if not None)')
+parser.add_argument('--alpha', type=float, default=1, help='Weight of the inner product score in geometric attention')
+parser.add_argument('--l1_weight', type=float, default=5e-5, help='Weight of L1 loss')
+parser.add_argument('--d_model', type=int, default=32, help='Dimensionality of pseudo tokens')
+parser.add_argument('--d_ff', type=int, default=32, help='Dimensionality of the feedforward network')
+parser.add_argument('--e_layers', type=int, default=1, help='Number of SimpleTM layers')
+parser.add_argument('--compile', type=bool, default=False, help='Set to True to enable compilation, which can accelerate speed but may slightly impact performance')
+parser.add_argument('--output_attention', action='store_true', help='Set to False to output attn, which can be used to compute training loss')
+
 # endregion
 
 # region stats config
